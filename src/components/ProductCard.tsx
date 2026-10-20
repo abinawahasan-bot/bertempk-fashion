@@ -93,7 +93,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             aria-label="Add to wishlist"
             onClick={handleWishlist}
             className={cn(
-              "rounded-none p-2 backdrop-blur-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40 active:scale-95",
+              "rounded-none p-2.5 backdrop-blur-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40 active:scale-95",
               wished
                 ? "bg-acid text-ink"
                 : "bg-ink/60 text-bone hover:bg-ink"
@@ -136,7 +136,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
                 }}
                 disabled={quickAdding === size}
                 className={cn(
-                  "flex h-8 min-w-8 items-center justify-center border px-2 text-[9px] font-bold uppercase tracking-[0.1em] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40",
+                  "flex h-9 min-w-9 items-center justify-center border px-2.5 text-[9px] font-bold uppercase tracking-[0.1em] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40",
                   quickAdding === size
                     ? "border-acid bg-acid text-ink"
                     : "border-bone/60 bg-bone/90 text-ink hover:bg-acid hover:border-acid backdrop-blur-sm"
@@ -148,7 +148,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
             <Link
               to={`/product/${product.id}`}
               onClick={(e) => e.stopPropagation()}
-              className="flex h-8 items-center justify-center border border-bone/60 bg-bone/90 px-2.5 text-[9px] font-bold uppercase tracking-[0.1em] text-ink backdrop-blur-sm transition-colors hover:bg-acid hover:border-acid focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40"
+              className="flex h-9 items-center justify-center border border-bone/60 bg-bone/90 px-3 text-[9px] font-bold uppercase tracking-[0.1em] text-ink backdrop-blur-sm transition-colors hover:bg-acid hover:border-acid focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40"
             >
               Detail
             </Link>
@@ -159,11 +159,13 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       {/* Info */}
       <div className="mt-4 flex items-start justify-between gap-3 border-t border-steel/40 pt-3">
         <div className="min-w-0">
-          <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-fog">
+          <span className="block truncate text-[10px] font-medium uppercase tracking-[0.2em] text-fog">
             {category}
           </span>
           <h3 className="mt-1 truncate font-display text-lg leading-tight text-bone transition-colors group-hover:text-acid">
-            <Link to={`/product/${product.id}`}>{name}</Link>
+            <Link to={`/product/${product.id}`} className="block truncate">
+              {name}
+            </Link>
           </h3>
         </div>
         <div className="shrink-0 text-right">

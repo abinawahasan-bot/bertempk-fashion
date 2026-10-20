@@ -125,11 +125,11 @@ export default function CartDrawer() {
                               onClick={() =>
                                 updateQuantity(item.lineId, item.quantity - 1)
                               }
-                              className="p-1.5 text-fog transition-colors hover:bg-smoke hover:text-bone"
+                              className="p-2.5 text-fog transition-colors hover:bg-smoke hover:text-bone"
                             >
-                              <Minus className="h-3.5 w-3.5" />
+                              <Minus className="h-4 w-4" />
                             </button>
-                            <span className="min-w-7 text-center text-sm font-medium text-bone">
+                            <span className="min-w-8 text-center text-sm font-medium text-bone">
                               {item.quantity}
                             </span>
                             <button
@@ -137,9 +137,9 @@ export default function CartDrawer() {
                               onClick={() =>
                                 updateQuantity(item.lineId, item.quantity + 1)
                               }
-                              className="p-1.5 text-fog transition-colors hover:bg-smoke hover:text-bone"
+                              className="p-2.5 text-fog transition-colors hover:bg-smoke hover:text-bone"
                             >
-                              <Plus className="h-3.5 w-3.5" />
+                              <Plus className="h-4 w-4" />
                             </button>
                           </div>
                           <button

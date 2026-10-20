@@ -63,7 +63,7 @@ export default function HangerButton({
           : `Wear ${product.name} in the fitting room`
       }
       className={cn(
-        "rounded-none p-2 backdrop-blur-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40 active:scale-95",
+        "rounded-none p-2.5 backdrop-blur-sm transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-acid/40 active:scale-95",
         worn ? "bg-acid text-ink" : "bg-ink/60 text-bone hover:bg-ink",
         className
       )}

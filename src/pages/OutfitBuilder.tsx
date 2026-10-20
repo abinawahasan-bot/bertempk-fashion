@@ -373,7 +373,7 @@ export default function OutfitBuilder() {
 
         {/* Right: Preview & Summary */}
         <div className="lg:col-span-5 xl:col-span-4">
-          <div className="sticky top-24 space-y-6">
+          <div className="space-y-6 lg:sticky lg:top-24">
             {/* Preview */}
             <div className="border border-steel/40 bg-smoke">
               <div className="flex items-center justify-between border-b border-steel/40 px-5 py-4">
