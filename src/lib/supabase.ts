@@ -47,6 +47,8 @@ export function getSupabase(): Promise<SupabaseClient> {
               persistSession: true,
               autoRefreshToken: true,
               detectSessionInUrl: true,
+              storage: window.localStorage,
+              storageKey: "bato-supabase-auth",
             },
           },
         );

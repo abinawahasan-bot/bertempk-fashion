@@ -1,25 +1,22 @@
 import { test } from "@playwright/test";
 
-test("admin login flow", async ({ page }) => {
-  page.on("console", (msg) => console.log("CONSOLE:", msg.text()));
-  
+test("check localStorage", async ({ page }) => {
   await page.goto("https://fashion-ecom-eight.vercel.app/");
   await page.waitForLoadState("domcontentloaded");
   await page.waitForTimeout(3000);
   
-  await page.click('button:has-text("Sign In")');
-  await page.waitForTimeout(1000);
+  const lsAvailable = await page.evaluate(() => {
+    try {
+      localStorage.setItem("test", "1");
+      const v = localStorage.getItem("test");
+      localStorage.removeItem("test");
+      return v === "1";
+    } catch (e) {
+      return "error: " + String(e);
+    }
+  });
+  console.log("localStorage available:", lsAvailable);
   
-  await page.fill('input[type="email"]', "abinawahasan@gmail.com");
-  await page.fill('input[type="password"]', "TempPass123!");
-  
-  const dialog = page.locator('[role="dialog"]');
-  const submitBtn = dialog.locator('button[type="submit"]');
-  await submitBtn.click({ force: true });
-  await page.waitForTimeout(8000);
-  
-  console.log("URL after login:", page.url());
-  
-  const bodyText = await page.textContent("body");
-  console.log("Has 'Sign Out':", bodyText?.includes("Sign Out") || bodyText?.includes("sign out") || bodyText?.includes("Keluar"));
+  const hasWindow = await page.evaluate(() => typeof window !== "undefined");
+  console.log("Has window:", hasWindow);
 });
