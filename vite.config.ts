@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+console.log("BUILD ENV VITE_SUPABASE_URL:", process.env.VITE_SUPABASE_URL);
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
