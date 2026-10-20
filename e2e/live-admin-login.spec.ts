@@ -13,36 +13,13 @@ test("admin login flow", async ({ page }) => {
   await page.fill('input[type="email"]', "abinawahasan@gmail.com");
   await page.fill('input[type="password"]', "TempPass123!");
   
-  // Check form's pointer-events and other styles
-  const formStyles = await page.evaluate(() => {
-    const form = document.querySelector('[role="dialog"] form');
-    if (!form) return "no form";
-    const style = getComputedStyle(form);
-    return JSON.stringify({
-      pointerEvents: style.pointerEvents,
-      display: style.display,
-      visibility: style.visibility,
-    });
-  });
-  console.log("Form styles:", formStyles);
+  const dialog = page.locator('[role="dialog"]');
+  const submitBtn = dialog.locator('button[type="submit"]');
+  await submitBtn.click({ force: true });
+  await page.waitForTimeout(8000);
   
-  // Check if button has any event listeners
-  const hasListeners = await page.evaluate(() => {
-    const btn = document.querySelector('[role="dialog"] button[type="submit"]');
-    // @ts-ignore
-    return btn ? (btn.onclick !== null || btn._listeners) : false;
-  });
-  console.log("Has onClick listeners:", hasListeners);
+  console.log("URL after login:", page.url());
   
-  // Try to manually trigger click on the button
-  await page.evaluate(() => {
-    const btn = document.querySelector('[role="dialog"] button[type="submit"]') as HTMLButtonElement;
-    if (btn) {
-      const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
-      btn.dispatchEvent(clickEvent);
-    }
-  });
-  await page.waitForTimeout(5000);
-  
-  console.log("Done");
+  const bodyText = await page.textContent("body");
+  console.log("Has 'Sign Out':", bodyText?.includes("Sign Out") || bodyText?.includes("sign out") || bodyText?.includes("Keluar"));
 });
