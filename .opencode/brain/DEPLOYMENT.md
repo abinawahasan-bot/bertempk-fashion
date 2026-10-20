@@ -8,9 +8,11 @@
 |-------------|---------|-----------|------------|
 | Local dev | Development | `http://127.0.0.1:5200/` (via `vite --port 5200 --host 127.0.0.1`; log `/tmp/vite-dev.log`) | CONFIRMED (**unchanged** — re-checked 2026-10-18; `vite.config.ts` still has no `server` block, see ISSUE-002) |
 | Local preview | Preview built output | `vite preview` (Vite default 4173) | CONFIRMED (command) |
-| Production / staging | — | **UNKNOWN** — no hosting config found | UNKNOWN |
+| Production | Live | https://fashion-ecom-eight.vercel.app (Vercel free tier) | CONFIRMED (2026-10-20) |
+| Preview | Auto-deploy per push | https://fashion-ecom-*.vercel.app (Vercel preview) | CONFIRMED (2026-10-20) |
 
-- No `netlify.toml`, `vercel.json`, `Dockerfile`, `render`/`fly`/`caddy`/nginx config, or CI YAML exists in the repo — CONFIRMED. **Host = UNKNOWN.**
+- `vercel.json` exists with SPA fallback rewrites (`{"rewrites":[{"source":"/(.*)","destination":"/index.html"}]}`) — CONFIRMED (2026-10-20).
+- Auto-deploy from GitHub master branch. Env vars configured on Vercel (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_PAYMENT_ENDPOINT, VITE_LEAD_ENDPOINT, VITE_TURNSTILE_SITE_KEY). — CONFIRMED (2026-10-20).
 
 ## Build process
 
@@ -30,7 +32,8 @@
 
 ## CI / CD
 
-- **None.** No pipeline; deployment is manual/unconfigured. — CONFIRMED.
+- **Vercel auto-deploy** from GitHub master branch. Every push triggers a production build and deploy. — CONFIRMED (2026-10-20).
+- Build command: `npm run build` (`tsc -b && vite build`). Output directory: `dist/`. — CONFIRMED.
 
 ## Monitoring & logging
 
@@ -38,7 +41,7 @@
 
 ## Rollback strategy
 
-- Not established (no deploy pipeline). For a static host, rollback = redeploy the previous `dist/` artifact; version control is unavailable (repo is not a git repo) — INFERRED / WEAK.
+- Vercel provides instant rollback via dashboard or CLI (`vercel rollback`). Previous deployments are retained. Git-based: revert commit and push to trigger redeploy. — CONFIRMED (2026-10-20).
 
 ## Deploy runbook
 

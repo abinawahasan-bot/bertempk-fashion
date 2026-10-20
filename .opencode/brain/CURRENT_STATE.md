@@ -35,7 +35,7 @@
 | **Size guide** | **DONE (Wave 0)** | New route `/size-guide` (`src/pages/SizeGuide.tsx` + shared `src/components/SizeGuideContent.tsx`); accessible dialog (`role="dialog"`, `aria-modal`, labelled, Escape, focus in/restore, Tab trap, reduced-motion aware) — CONFIRMED |
 | **Mobile nav reachability** | **DONE (Wave 0)** | Hamburger now exposes Search, Wishlist, Orders and Account; `/wishlist` and `/orders` were previously **unreachable on mobile** — CONFIRMED |
 | **Accessible line thumbnails** | **DONE (Wave 0)** | `src/components/LineImage.tsx` renders an accessible placeholder instead of `<img src="">` for pre-Wave-0 cart rows — CONFIRMED |
-| **Automated tests** | **DONE (Wave 0 + Phase 1)** | **10 test files / 147 tests** (`vitest run`, jsdom + Testing Library) — CONFIRMED (re-run 2026-10-19) |
+| **Automated tests** | **DONE (Wave 0 + Phase 1)** | **10 test files / 148 tests** (`vitest run`, jsdom + Testing Library) — CONFIRMED (re-run 2026-10-19) |
 
 ### Routing table (authoritative — `src/App.tsx`)
 
@@ -132,14 +132,21 @@ The pre-Wave-0 rows saying "5 routes" were **stale** — CONFIRMED (code).
   content hashes not pinned). The main chunk grew from ~531 kB to ~820 kB as
   `@supabase/supabase-js` was pulled into it — INFERRED (cause from the dependency change;
   not bundle-analysed).
-- **No hosting/CI configured; production host is UNKNOWN** — see DEPLOYMENT.md.
-- **Not a git repository** — CONFIRMED (no `.git`). No branch, no commit history, no
-  rollback path beyond keeping the previous `dist/`.
+- **Hosted on Vercel (free tier)** — auto-deploy from GitHub master branch. Live URL:
+  https://fashion-ecom-eight.vercel.app. SPA fallback via vercel.json. Env vars configured
+  (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY, VITE_PAYMENT_ENDPOINT, VITE_LEAD_ENDPOINT,
+  VITE_TURNSTILE_SITE_KEY). — CONFIRMED (2026-10-20).
+- **Git repository** — initialized and pushed to https://github.com/abinawahasan-bot/bertempk-fashion
+  (branch: master). Full commit history available. — CONFIRMED (2026-10-20).
+- **Midtrans sandbox** — `MIDTRANS_IS_PRODUCTION=false`; sandbox key active. Production
+  key not yet registered (business verification pending). — CONFIRMED.
 
 ## Branch / version (if versioned)
 
-- Current branch: N/A — **repo is not a git repository** — CONFIRMED.
+- Current branch: `master` — CONFIRMED (git repo initialized 2026-10-20).
 - Package version: `0.0.0` (`package.json`) — CONFIRMED.
+- Deployment: Vercel (free tier) — auto-deploy from GitHub master.
+- Live URL: https://fashion-ecom-eight.vercel.app
 
 ## Snapshot pointer
 
