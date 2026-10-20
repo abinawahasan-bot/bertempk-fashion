@@ -1,29 +1,27 @@
 import { test } from "@playwright/test";
 
 test("admin login flow", async ({ page }) => {
-  page.on("console", (msg) => console.log("CONSOLE:", msg.text()));
-  
   await page.goto("https://fashion-ecom-eight.vercel.app/");
   await page.waitForLoadState("domcontentloaded");
-  await page.waitForTimeout(5000);
+  await page.waitForTimeout(3000);
   
-  // Try to call getSupabase manually via window
-  const result = await page.evaluate(async () => {
-    try {
-      // @ts-ignore
-      const { createClient } = await import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm");
-      const client = createClient(
-        "https://xznhshhdwipafbvjpmad.supabase.co",
-        "sb_publishable_MfmgVL1Nv9F6TmnFFwXPTg_kcQQi2Ig"
-      );
-      const { data, error } = await client.auth.signInWithPassword({
-        email: "abinawahasan@gmail.com",
-        password: "TempPass123!"
-      });
-      return { success: !error, error: error?.message, hasSession: !!data?.session };
-    } catch (e) {
-      return { success: false, error: String(e) };
-    }
-  });
-  console.log("Manual auth result:", JSON.stringify(result));
+  await page.click('button:has-text("Sign In")');
+  await page.waitForTimeout(1000);
+  
+  await page.fill('input[type="email"]', "abinawahasan@gmail.com");
+  await page.fill('input[type="password"]', "TempPass123!");
+  
+  const submitBtn = page.locator('button[type="submit"]').last();
+  await submitBtn.click();
+  await page.waitForTimeout(8000);
+  
+  const bodyText = await page.textContent("body");
+  console.log("Has 'Sign Out':", bodyText?.includes("Sign Out") || bodyText?.includes("sign out") || bodyText?.includes("Keluar"));
+  
+  await page.goto("https://fashion-ecom-eight.vercel.app/admin");
+  await page.waitForLoadState("domcontentloaded");
+  await page.waitForTimeout(3000);
+  
+  const adminText = await page.textContent("body");
+  console.log("Admin has 'Sign in required':", adminText?.includes("Sign in required"));
 });

@@ -57,12 +57,15 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true });
         try {
           const supabase = await getSupabase();
+          console.log("[auth] calling signInWithPassword");
           const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
+          console.log("[auth] result:", error?.message || "success", data?.user?.email);
           if (!error && data?.user) {
             set({ user: data.user });
+            console.log("[auth] user set in store");
           }
           return { error: error?.message ?? null };
         } catch (err) {
