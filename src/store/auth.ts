@@ -57,10 +57,13 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true });
         try {
           const supabase = await getSupabase();
-          const { error } = await supabase.auth.signInWithPassword({
+          const { data, error } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
+          if (!error && data?.user) {
+            set({ user: data.user });
+          }
           return { error: error?.message ?? null };
         } catch (err) {
           return { error: message(err) };
@@ -73,13 +76,16 @@ export const useAuthStore = create<AuthState>()(
         set({ loading: true });
         try {
           const supabase = await getSupabase();
-          const { error } = await supabase.auth.signUp({
+          const { data, error } = await supabase.auth.signUp({
             email,
             password,
             options: {
               data: { full_name: name },
             },
           });
+          if (!error && data?.user) {
+            set({ user: data.user });
+          }
           return { error: error?.message ?? null };
         } catch (err) {
           return { error: message(err) };
