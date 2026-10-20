@@ -41,7 +41,6 @@ export default function AuthModal() {
   }, [authModalOpen, view]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("[AuthModal] handleSubmit called, email:", email, "password length:", password.length);
     e.preventDefault();
     setError(null);
     setSuccess(null);
