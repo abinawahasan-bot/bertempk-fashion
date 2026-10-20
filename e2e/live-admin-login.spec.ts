@@ -1,6 +1,8 @@
 import { test } from "@playwright/test";
 
 test("admin login flow", async ({ page }) => {
+  page.on("console", (msg) => console.log("CONSOLE:", msg.text()));
+  
   await page.goto("https://fashion-ecom-eight.vercel.app/");
   await page.waitForLoadState("domcontentloaded");
   await page.waitForTimeout(3000);
@@ -8,25 +10,39 @@ test("admin login flow", async ({ page }) => {
   await page.click('button:has-text("Sign In")');
   await page.waitForTimeout(1000);
   
-  // Check if submit button is inside the form
-  const isInsideForm = await page.evaluate(() => {
-    const btn = document.querySelector('[role="dialog"] button[type="submit"]');
+  await page.fill('input[type="email"]', "abinawahasan@gmail.com");
+  await page.fill('input[type="password"]', "TempPass123!");
+  
+  // Check form's pointer-events and other styles
+  const formStyles = await page.evaluate(() => {
     const form = document.querySelector('[role="dialog"] form');
-    return form && btn && form.contains(btn);
+    if (!form) return "no form";
+    const style = getComputedStyle(form);
+    return JSON.stringify({
+      pointerEvents: style.pointerEvents,
+      display: style.display,
+      visibility: style.visibility,
+    });
   });
-  console.log("Submit btn inside form:", isInsideForm);
+  console.log("Form styles:", formStyles);
   
-  // Check pointer-events on the button
-  const pointerEvents = await page.evaluate(() => {
+  // Check if button has any event listeners
+  const hasListeners = await page.evaluate(() => {
     const btn = document.querySelector('[role="dialog"] button[type="submit"]');
-    return btn ? getComputedStyle(btn).pointerEvents : "not found";
+    // @ts-ignore
+    return btn ? (btn.onclick !== null || btn._listeners) : false;
   });
-  console.log("Pointer events:", pointerEvents);
+  console.log("Has onClick listeners:", hasListeners);
   
-  // Check if there's an overlay on top
-  const overlayZ = await page.evaluate(() => {
-    const overlay = document.querySelector('.fixed.inset-0');
-    return overlay ? getComputedStyle(overlay).zIndex : "not found";
+  // Try to manually trigger click on the button
+  await page.evaluate(() => {
+    const btn = document.querySelector('[role="dialog"] button[type="submit"]') as HTMLButtonElement;
+    if (btn) {
+      const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+      btn.dispatchEvent(clickEvent);
+    }
   });
-  console.log("Overlay z-index:", overlayZ);
+  await page.waitForTimeout(5000);
+  
+  console.log("Done");
 });
