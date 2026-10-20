@@ -184,6 +184,7 @@ export default function AuthModal() {
 
               <button
                 type="submit"
+                onClick={() => console.log("[AuthModal] button clicked")}
                 disabled={loading}
                 className={cn(
                   "w-full py-3.5 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors",
